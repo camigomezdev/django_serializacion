@@ -58,13 +58,26 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'orders.authentication.JWTWithAPIKey'
+        # 'orders.authentication.JWTWithAPIKey'
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.UserRateThrottle",
+        "rest_framework.throttling.AnonRateThrottle",
+        'rest_framework.throttling.ScopedRateThrottle',
     ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
+
+    'DEFAULT_THROTTLE_RATES': {
+        # "user": "1/min",
+        # "anon": "1/day",
+        "order": "5/min",
+        "detail": "1/min"
+    },
+
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
@@ -21,6 +22,9 @@ class Product(models.Model):
 
 
 class Order(models.Model):
+    seller = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='seller_orders',
+        default=1)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)

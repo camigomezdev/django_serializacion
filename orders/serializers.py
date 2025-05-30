@@ -55,7 +55,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'created_at', 'items']
+        fields = ['id', 'seller', 'customer', 'created_at', 'items']
 
     def validate_customer(self, customer):
         if not customer.is_active:
@@ -97,6 +97,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
         data["created_at"] = instance.created_at.strftime("%d/%m/%Y")
 
+        data["seller"] = instance.seller.username
+        data["customer"] = instance.customer.name
         total = sum([
             item.product.price * item.quantity
             for item in instance.items.select_related('product')
